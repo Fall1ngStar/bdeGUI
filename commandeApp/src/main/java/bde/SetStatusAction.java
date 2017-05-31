@@ -23,5 +23,7 @@ public class SetStatusAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         ((Serveur)parent.getComboServeurs().getSelectedItem()).setStatus(toDefine);
+        ((ServeurListModel)parent.getListeServeursActifs().getModel()).updateServeurList();
+        parent.getListeServeursActifs().updateUI();
     }
 }

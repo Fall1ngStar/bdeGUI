@@ -4,15 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * ServeurCellRenderer class
+ * ServeurComboRenderer class
  * Created by Thierry
  * 31/05/2017
  */
-public class ServeurCellRenderer extends JPanel implements ListCellRenderer<Serveur> {
+public class ServeurComboRenderer extends JPanel implements ListCellRenderer<Serveur> {
 
     JLabel text;
 
-    public ServeurCellRenderer() {
+    public ServeurComboRenderer() {
         text = new JLabel();
         add(text);
     }

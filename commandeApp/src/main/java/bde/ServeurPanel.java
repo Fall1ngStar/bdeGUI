@@ -1,6 +1,7 @@
 package bde;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * ServeurPanel class
@@ -17,15 +18,14 @@ public class ServeurPanel extends JPanel {
     private Serveur[] serveurs = {new Serveur("Serveur 1"),new Serveur("Serveur 2"),new Serveur("Serveur 3"),new Serveur("Serveur 4"),new Serveur("Serveur 5"),new Serveur("Serveur 6")};
 
     public ServeurPanel(){
+        serveurs[2].setStatus(StatusServeur.SANDWICH);
         initComponents();
         build();
         createInterractions();
-
-        serveurs[2].setStatus(StatusServeur.SANDWICH);
     }
 
     private void initComponents(){
-        listeServeursActifs = new JList<>();
+        listeServeursActifs = new JList<>(new ServeurListModel(serveurs));
         comboServeurs = new JComboBox<>(serveurs);
         statusServeur = new ButtonGroup();
         ordi = new JRadioButton(new SetStatusAction("Ordi",StatusServeur.ORDI, this));
@@ -49,7 +49,8 @@ public class ServeurPanel extends JPanel {
         add(sandwich);
         add(nservice);
 
-        comboServeurs.setRenderer(new ServeurCellRenderer());
+        comboServeurs.setRenderer(new ServeurComboRenderer());
+        listeServeursActifs.setCellRenderer(new ServeurListRenderer());
     }
 
     private void createInterractions(){
@@ -76,5 +77,9 @@ public class ServeurPanel extends JPanel {
 
     public JComboBox<Serveur> getComboServeurs() {
         return comboServeurs;
+    }
+
+    public JList<Serveur> getListeServeursActifs() {
+        return listeServeursActifs;
     }
 }
