@@ -1,9 +1,7 @@
 package bde.actions;
 
-import bde.models.Serveur;
-import bde.models.ServeurListModel;
+import bde.ServeurStatusComponent;
 import bde.models.StatusServeur;
-import bde.panels.ServeurPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,9 +14,9 @@ import java.awt.event.ActionEvent;
 public class SetStatusAction extends AbstractAction {
 
     private StatusServeur toDefine;
-    private ServeurPanel parent;
+    private ServeurStatusComponent parent;
 
-    public SetStatusAction(String name, StatusServeur toDefine, ServeurPanel parent){
+    public SetStatusAction(String name, StatusServeur toDefine, ServeurStatusComponent parent){
         super(name);
         this.toDefine = toDefine;
         this.parent = parent;
@@ -27,8 +25,8 @@ public class SetStatusAction extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ((Serveur)parent.getComboServeurs().getSelectedItem()).setStatus(toDefine);
-        ((ServeurListModel)parent.getListeServeursActifs().getModel()).updateServeurList();
-        parent.getListeServeursActifs().updateUI();
+        parent.getServeur().setStatus(toDefine);
+        parent.updateColor();
+        parent.getParent().updateServeurListOrder();
     }
 }

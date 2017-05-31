@@ -5,7 +5,7 @@ package bde.models;
  * Created by Thierry
  * 31/05/2017
  */
-public class Serveur {
+public class Serveur implements Comparable<Serveur>{
     private String nom;
     private StatusServeur status;
 
@@ -22,6 +22,10 @@ public class Serveur {
         return status;
     }
 
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
     public void setStatus(StatusServeur status) {
         this.status = status;
     }
@@ -29,5 +33,10 @@ public class Serveur {
     @Override
     public String toString() {
         return nom;
+    }
+
+    @Override
+    public int compareTo(Serveur o) {
+        return Integer.compare(o.status.getPriorite(), this.status.getPriorite()) ;
     }
 }

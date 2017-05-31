@@ -1,13 +1,13 @@
 package bde.panels;
 
+import bde.ServeurStatusComponent;
 import bde.models.Serveur;
-import bde.actions.SetStatusAction;
 import bde.models.StatusServeur;
-import bde.models.ServeurListModel;
-import bde.renderers.ServeurComboRenderer;
-import bde.renderers.ServeurListRenderer;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * ServeurPanel class
@@ -16,76 +16,36 @@ import javax.swing.*;
  */
 public class ServeurPanel extends JPanel {
 
-    private JList<Serveur> listeServeursActifs;
-    private JComboBox<Serveur> comboServeurs;
-    private ButtonGroup statusServeur;
-    private JRadioButton ordi, sandwich, commis, nservice;
+    private List<ServeurStatusComponent> listeServeurControls;
 
-    private Serveur[] serveurs = {new Serveur("Serveur 1"),new Serveur("Serveur 2"),new Serveur("Serveur 3"),new Serveur("Serveur 4"),new Serveur("Serveur 5"),new Serveur("Serveur 6")};
+    private Serveur[] serveurs = {new Serveur("Serveur 1"), new Serveur("Serveur 2"), new Serveur("Serveur 3"), new Serveur("Serveur 4"), new Serveur("Serveur 5"), new Serveur("Serveur 6")};
 
-    public ServeurPanel(){
+    public ServeurPanel() {
         serveurs[2].setStatus(StatusServeur.SANDWICH);
         initComponents();
         build();
         createInterractions();
     }
 
-    private void initComponents(){
-        listeServeursActifs = new JList<>(new ServeurListModel(serveurs));
-        comboServeurs = new JComboBox<>(serveurs);
-        statusServeur = new ButtonGroup();
-        ordi = new JRadioButton(new SetStatusAction("Ordi",StatusServeur.ORDI, this));
-        sandwich = new JRadioButton(new SetStatusAction("Sandwichs",StatusServeur.SANDWICH,this));
-        commis = new JRadioButton(new SetStatusAction("Commis",StatusServeur.COMMIS,this));
-        nservice = new JRadioButton(new SetStatusAction("Pas en service",StatusServeur.HS,this));
+    private void initComponents() {
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        listeServeurControls = new ArrayList<>();
+        for (Serveur s : serveurs) {
+            listeServeurControls.add(new ServeurStatusComponent(s, this));
+        }
     }
 
-    private void build(){
-        add(listeServeursActifs);
-        add(comboServeurs);
-
-        statusServeur.add(ordi);
-        statusServeur.add(commis);
-        statusServeur.add(sandwich);
-        statusServeur.add(nservice);
-        statusServeur.setSelected(nservice.getModel(), true);
-
-        add(ordi);
-        add(commis);
-        add(sandwich);
-        add(nservice);
-
-        comboServeurs.setRenderer(new ServeurComboRenderer());
-        listeServeursActifs.setCellRenderer(new ServeurListRenderer());
+    private void build() {
+        updateServeurListOrder();
     }
 
-    private void createInterractions(){
-        comboServeurs.addItemListener(e->{
-            StatusServeur statusServeur = ((Serveur)e.getItem()).getStatus();
-            JRadioButton statusServeurButton = null;
-            switch (statusServeur){
-                case HS:
-                    statusServeurButton = nservice;
-                    break;
-                case ORDI:
-                    statusServeurButton = ordi;
-                    break;
-                case COMMIS:
-                    statusServeurButton = commis;
-                    break;
-                case SANDWICH:
-                    statusServeurButton = sandwich;
-                    break;
-            }
-            this.statusServeur.setSelected(statusServeurButton.getModel(), true);
-        });
+    private void createInterractions() {
+
     }
 
-    public JComboBox<Serveur> getComboServeurs() {
-        return comboServeurs;
-    }
-
-    public JList<Serveur> getListeServeursActifs() {
-        return listeServeursActifs;
+    public void updateServeurListOrder(){
+        removeAll();
+        listeServeurControls.sort(Comparator.comparing(ServeurStatusComponent::getServeur));
+        listeServeurControls.forEach(e -> ServeurPanel.this.add(e));
     }
 }
