@@ -1,4 +1,4 @@
-package bde;
+package bde.models;
 
 import javax.swing.*;
 import java.util.ArrayList;

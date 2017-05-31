@@ -1,4 +1,6 @@
-package bde;
+package bde.renderers;
+
+import bde.models.Serveur;
 
 import javax.swing.*;
 import java.awt.*;

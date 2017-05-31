@@ -1,4 +1,4 @@
-package bde;
+package bde.panels;
 
 import javax.swing.*;
 import java.awt.*;

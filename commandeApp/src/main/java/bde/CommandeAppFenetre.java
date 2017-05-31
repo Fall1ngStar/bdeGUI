@@ -1,5 +1,7 @@
 package bde;
 
+import bde.panels.CommandePanelPrincipal;
+
 import javax.swing.*;
 
 /**

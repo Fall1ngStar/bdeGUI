@@ -1,7 +1,13 @@
-package bde;
+package bde.panels;
+
+import bde.models.Serveur;
+import bde.actions.SetStatusAction;
+import bde.models.StatusServeur;
+import bde.models.ServeurListModel;
+import bde.renderers.ServeurComboRenderer;
+import bde.renderers.ServeurListRenderer;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * ServeurPanel class

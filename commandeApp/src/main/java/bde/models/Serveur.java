@@ -1,4 +1,4 @@
-package bde;
+package bde.models;
 
 /**
  * Serveur class

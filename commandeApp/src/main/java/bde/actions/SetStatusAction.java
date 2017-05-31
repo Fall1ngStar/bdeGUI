@@ -1,4 +1,9 @@
-package bde;
+package bde.actions;
+
+import bde.models.Serveur;
+import bde.models.ServeurListModel;
+import bde.models.StatusServeur;
+import bde.panels.ServeurPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
