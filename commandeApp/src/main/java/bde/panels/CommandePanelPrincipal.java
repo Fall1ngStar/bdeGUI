@@ -35,5 +35,7 @@ public class CommandePanelPrincipal extends JPanel {
 
         setLayout(new BorderLayout());
         add(tabbedPane, BorderLayout.CENTER);
+
+        tabbedPane.setSelectedComponent(gestionCommandePanel);
     }
 }
