@@ -32,4 +32,8 @@ public class Commande {
     public StatusCommande getStatus() {
         return status;
     }
+
+    public void setStatus(StatusCommande status) {
+        this.status = status;
+    }
 }

@@ -20,6 +20,7 @@ public class CommandeContainerPanel extends JPanel {
         this.commande = commande;
         initComponent();
         build();
+        createInterractions();
     }
 
     private void initComponent() {
@@ -78,5 +79,22 @@ public class CommandeContainerPanel extends JPanel {
 
         setBackground(Color.PINK);
         setBorder(BorderFactory.createLineBorder(Color.BLACK,2, true));
+    }
+
+    private void createInterractions(){
+        finPrepa.addActionListener(e->{
+            commande.setStatus(StatusCommande.PRETE);
+            finPrepa.setEnabled(false);
+            updateStatus();
+        });
+        delivre.addActionListener(e->{
+            commande.setStatus(StatusCommande.REMISE);
+            delivre.setEnabled(false);
+            updateStatus();
+        });
+    }
+
+    private void updateStatus(){
+        status.setText(commande.getStatus().getNom());
     }
 }
