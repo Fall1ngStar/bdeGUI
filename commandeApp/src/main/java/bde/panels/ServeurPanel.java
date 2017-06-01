@@ -1,5 +1,6 @@
 package bde.panels;
 
+import bde.Config;
 import bde.ServeurStatusComponent;
 import bde.models.Serveur;
 import bde.models.StatusServeur;
@@ -23,8 +24,6 @@ public class ServeurPanel extends JPanel {
     public ServeurPanel() {
         serveurs[2].setStatus(StatusServeur.SANDWICH);
         initComponents();
-        build();
-        createInterractions();
     }
 
     private void initComponents() {
@@ -33,19 +32,15 @@ public class ServeurPanel extends JPanel {
         for (Serveur s : serveurs) {
             listeServeurControls.add(new ServeurStatusComponent(s, this));
         }
+        listeServeurControls.forEach(e -> ServeurPanel.this.add(e));
     }
 
-    private void build() {
-        updateServeurListOrder();
-    }
-
-    private void createInterractions() {
-
-    }
 
     public void updateServeurListOrder(){
-        removeAll();
-        listeServeurControls.sort(Comparator.comparing(ServeurStatusComponent::getServeur));
-        listeServeurControls.forEach(e -> ServeurPanel.this.add(e));
+        if (Config.getInstance().serveurConfig.autoSortServeurs) {
+            removeAll();
+            listeServeurControls.sort(Comparator.comparing(ServeurStatusComponent::getServeur));
+            listeServeurControls.forEach(e -> ServeurPanel.this.add(e));
+        }
     }
 }

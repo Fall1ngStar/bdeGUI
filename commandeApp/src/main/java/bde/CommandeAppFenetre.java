@@ -19,6 +19,7 @@ public class CommandeAppFenetre extends JFrame{
         setTitle("Application commandes");
         setSize(1280,720);
         setContentPane(new CommandePanelPrincipal());
+        setJMenuBar(new CommandeAppMenuBar());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
