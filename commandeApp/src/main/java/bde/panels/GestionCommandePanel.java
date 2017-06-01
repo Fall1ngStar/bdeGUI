@@ -5,6 +5,7 @@ import bde.CommandeContainerPanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * GestionCommandePanel class
@@ -13,8 +14,8 @@ import java.util.ArrayList;
  */
 public class GestionCommandePanel extends JPanel {
 
-    CommandeContainerPanel commandeContainer;
-    Commande commande;
+    List<CommandeContainerPanel> commandeContainer;
+    List<Commande> commande;
 
     public GestionCommandePanel() {
         intiComponents();
@@ -25,11 +26,16 @@ public class GestionCommandePanel extends JPanel {
         ArrayList<String> a = new ArrayList<>();
         a.add("Panini");
         a.add("Poulet jambon");
-        commande = new Commande(a);
-        commandeContainer = new CommandeContainerPanel(commande);
+
+        commandeContainer = new ArrayList<>();
+        commande = new ArrayList<>();
+
+        for(int i = 0; i < 12; i++){
+            commandeContainer.add(new CommandeContainerPanel(new Commande(a)));
+        }
     }
 
     private void build(){
-        add(commandeContainer);
+        commandeContainer.forEach(GestionCommandePanel.this::add);
     }
 }

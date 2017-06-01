@@ -13,7 +13,7 @@ public class CommandeContainerPanel extends JPanel {
     private Commande commande;
 
     private JButton finPrepa, delivre;
-    private JLabel noCommade, status;
+    private JLabel noCommande, status;
     private JTextArea contenuCommande;
 
     public CommandeContainerPanel(Commande commande) {
@@ -25,7 +25,7 @@ public class CommandeContainerPanel extends JPanel {
     private void initComponent() {
         finPrepa = new JButton("Commande prête");
         delivre = new JButton("Commande récupérée");
-        noCommade = new JLabel("Commande n° " + commande.getIdCommande() + " : ");
+        noCommande = new JLabel("Commande n° " + commande.getIdCommande() + " : ");
         status = new JLabel(commande.getStatus().getNom());
         contenuCommande = new JTextArea();
     }
@@ -52,7 +52,7 @@ public class CommandeContainerPanel extends JPanel {
                 layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup()
                                 .addGroup(layout.createSequentialGroup()
-                                        .addComponent(noCommade)
+                                        .addComponent(noCommande)
                                         .addComponent(status)
                                 )
                                 .addGroup(layout.createSequentialGroup()
@@ -66,7 +66,7 @@ public class CommandeContainerPanel extends JPanel {
         layout.setVerticalGroup(
                 layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup()
-                                .addComponent(noCommade)
+                                .addComponent(noCommande)
                                 .addComponent(status)
                         )
                         .addGroup(layout.createParallelGroup()
