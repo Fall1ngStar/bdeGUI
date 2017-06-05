@@ -8,9 +8,21 @@ import java.util.List;
  */
 public class CommandeWizard extends JDialog {
 
-    JList<JCheckBox> listeIngredients;
+    JList<JCheckBox> listeSandwichs, listeIngredients, listeSauces, listeBoissons, listeDesserts;
+    String[] sandwichs = new String[]{
+            "Sandwich", "Panini", "Wrap", "Assiete garnie", "Hot Dog"
+    };
     String[] ingredients = new String[]{
-            "Ingrédient x", "Ingrédient y", "Ingrédient x", "Ingrédient y", "Ingrédient x", "Ingrédient y"
+            "Poulet", "Maïs", "Brie", "Tomate", "Salade", "Cornichons", "Saucisson", "Fromage"
+    };
+    String[] sauces = new String[]{
+            "Curry", "Ketchup", "Mayonnaise", "Poivrons Oignons", "Algérienne", "Hamburger"
+    };
+    String[] boissons = new String[]{
+            "7up", "Coca", "Oasis", "Schwepps", "Grenadine", "Ice Tea"
+    };
+    String[] desserts = new String[]{
+            "Crêpe nut", "Beignet pomme/chocolat/framboise", "Donut", "Snikers", "KitKat", "Lion", "Muffin", "Panini nut"
     };
     JTextArea commande;
     JButton push;
@@ -22,23 +34,41 @@ public class CommandeWizard extends JDialog {
     }
 
     private void initComponent() {
+        listeSandwichs = new IngredientsList(new IngredientListModel(sandwichs));
         listeIngredients = new IngredientsList(new IngredientListModel(ingredients));
+        listeSauces = new IngredientsList(new IngredientListModel(sauces));
+        listeDesserts = new IngredientsList(new IngredientListModel(desserts));
+        listeBoissons = new IngredientsList(new IngredientListModel(boissons));
         panel = new JPanel();
         commande = new JTextArea();
         push = new JButton("Ajouter à la commande");
     }
 
     private void build() {
+        panel.add(listeSandwichs);
         panel.add(listeIngredients);
+        panel.add(listeSauces);
+        panel.add(listeDesserts);
+        panel.add(listeBoissons);
         panel.add(push);
         panel.add(commande);
 
         push.addActionListener(e -> {
-            List<String> current = ((IngredientListModel) listeIngredients.getModel()).getSelectedItems();
-            for (String s : current) {
-                commande.append(s + "\n");
-            }
+            ((IngredientListModel) listeSandwichs.getModel()).getSelectedItems().forEach(s->commande.append(s + "\n"));
+            ((IngredientListModel) listeSandwichs.getModel()).clearSelected();
+            ((IngredientListModel) listeIngredients.getModel()).getSelectedItems().forEach(s->commande.append(" - " + s + "\n"));
             ((IngredientListModel) listeIngredients.getModel()).clearSelected();
+            ((IngredientListModel) listeSauces.getModel()).getSelectedItems().forEach(s->commande.append(" - " + s + "\n"));
+            ((IngredientListModel) listeSauces.getModel()).clearSelected();
+            ((IngredientListModel) listeBoissons.getModel()).getSelectedItems().forEach(s->commande.append(s + "\n"));
+            ((IngredientListModel) listeBoissons.getModel()).clearSelected();
+            ((IngredientListModel) listeDesserts.getModel()).getSelectedItems().forEach(s->commande.append(s + "\n"));
+            ((IngredientListModel) listeDesserts.getModel()).clearSelected();
+            listeIngredients.repaint();
+            listeSauces.repaint();
+            listeBoissons.repaint();
+            listeDesserts.repaint();
+            listeSandwichs.repaint();
         });
         setContentPane(panel);
         setSize(800, 600);
