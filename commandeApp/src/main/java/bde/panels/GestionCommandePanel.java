@@ -2,8 +2,11 @@ package bde.panels;
 
 import bde.Commande;
 import bde.CommandeContainerPanel;
+import bde.CommandeWizard;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,28 +17,35 @@ import java.util.List;
  */
 public class GestionCommandePanel extends JPanel {
 
-    List<CommandeContainerPanel> commandeContainer;
-    List<Commande> commande;
+    private JButton createCommande;
 
     public GestionCommandePanel() {
         intiComponents();
         build();
     }
 
-    private void intiComponents(){
-        ArrayList<String> a = new ArrayList<>();
-        a.add("Panini");
-        a.add("Poulet jambon");
-
-        commandeContainer = new ArrayList<>();
-        commande = new ArrayList<>();
-
-        for(int i = 0; i < 12; i++){
-            commandeContainer.add(new CommandeContainerPanel(new Commande(a)));
-        }
+    private void intiComponents() {
+        createCommande = new JButton("Ajouter une commande");
     }
 
-    private void build(){
-        commandeContainer.forEach(GestionCommandePanel.this::add);
+    private void build() {
+        createCommande.addActionListener(e -> {
+            CommandeWizard wizard = new CommandeWizard();
+            wizard.addWindowListener(
+                    new WindowAdapter() {
+                        @Override
+                        public void windowClosed(WindowEvent e) {
+                            GestionCommandePanel.this.addCommande(wizard.getCommande());
+                        }
+                    }
+            );
+        });
+        add(createCommande);
+    }
+
+    private void addCommande(Commande c) {
+        add(new CommandeContainerPanel(c));
+        repaint();
+        revalidate();
     }
 }

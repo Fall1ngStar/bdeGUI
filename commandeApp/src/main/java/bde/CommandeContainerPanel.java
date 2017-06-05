@@ -35,7 +35,7 @@ public class CommandeContainerPanel extends JPanel {
         for (String s : commande.getContenu()) {
             contenuCommande.append(s + "\n");
         }
-
+        contenuCommande.setText(contenuCommande.getText().substring(0,contenuCommande.getText().length()-1));
         contenuCommande.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.BLACK),
                 BorderFactory.createEmptyBorder(5,5,5,5)

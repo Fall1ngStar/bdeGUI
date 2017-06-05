@@ -14,11 +14,13 @@ public class Commande {
     private int idCommande;
     private List<String> contenu;
     private StatusCommande status;
+    private double prix;
 
-    public Commande(List<String> contenu) {
+    public Commande(List<String> contenu, double prix) {
         this.contenu = contenu;
         status = StatusCommande.PREPARATION;
         idCommande = ++nbCommandes;
+        this.prix = prix;
     }
 
     public int getIdCommande() {
@@ -36,4 +38,6 @@ public class Commande {
     public void setStatus(StatusCommande status) {
         this.status = status;
     }
+
+
 }

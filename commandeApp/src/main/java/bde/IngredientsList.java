@@ -26,6 +26,7 @@ public class IngredientsList extends JList<JCheckBox> {
                 }
             }
         });
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
     private class CellRenderer extends JCheckBox implements ListCellRenderer<JCheckBox> {
