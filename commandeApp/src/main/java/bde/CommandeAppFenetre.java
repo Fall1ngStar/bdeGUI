@@ -1,23 +1,27 @@
 package bde;
 
+import bde.menus.CommandeAppMenuBar;
 import bde.panels.CommandePanelPrincipal;
 
 import javax.swing.*;
 
 /**
  * CommandeAppFenetre class
- * Created by Thierry
- * 31/05/2017
+ *
+ * Fenêtre principale de l'application
  */
-public class CommandeAppFenetre extends JFrame{
+public class CommandeAppFenetre extends JFrame {
 
-    public CommandeAppFenetre(){
+    public CommandeAppFenetre() {
         build();
     }
 
-    private void build(){
+    /**
+     * Organise les éléments et définit les propriétés de la fenêtre
+     */
+    private void build() {
         setTitle("Application commandes");
-        setSize(1280,1024);
+        setSize(1280, 1024);
         setContentPane(new CommandePanelPrincipal());
         setJMenuBar(new CommandeAppMenuBar());
         setLocationRelativeTo(null);

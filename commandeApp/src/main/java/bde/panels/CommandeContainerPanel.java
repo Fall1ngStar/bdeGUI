@@ -1,21 +1,32 @@
-package bde;
+package bde.panels;
+
+import bde.models.StatusCommande;
+import bde.models.Commande;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * CommandeContainerPanel class
- * Created by Thierry
- * 01/06/2017
+ * <p>
+ * Conteneur permettant l'affichage d'une commande
+ * Utilisé dans le {@link GestionCommandePanel GestionCommandePanel}
  */
 public class CommandeContainerPanel extends JPanel {
 
+    // La commande liée à ce panel
     private Commande commande;
 
+    // Bouttons permettant de changer l'état de la commande
     private JButton finPrepa, delivre;
+    // Labels pour afficher le status de la commande et son numéro
     private JLabel noCommande, status;
+    // TextArea pour afficher le contenu de la commande
     private JTextArea contenuCommande;
 
+    /**
+     * @param commande La commande liée à ce panel
+     */
     public CommandeContainerPanel(Commande commande) {
         this.commande = commande;
         initComponent();
@@ -23,6 +34,9 @@ public class CommandeContainerPanel extends JPanel {
         createInterractions();
     }
 
+    /**
+     * Initialise les différent composant du conteneur
+     */
     private void initComponent() {
         finPrepa = new JButton("Commande prête");
         delivre = new JButton("Commande récupérée");
@@ -31,14 +45,17 @@ public class CommandeContainerPanel extends JPanel {
         contenuCommande = new JTextArea();
     }
 
+    /**
+     * Organise les éléments dans le conteneur
+     */
     private void build() {
         for (String s : commande.getContenu()) {
             contenuCommande.append(s + "\n");
         }
-        contenuCommande.setText(contenuCommande.getText().substring(0,contenuCommande.getText().length()-1));
+        contenuCommande.setText(contenuCommande.getText().substring(0, contenuCommande.getText().length() - 1));
         contenuCommande.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.BLACK),
-                BorderFactory.createEmptyBorder(5,5,5,5)
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
         contenuCommande.setFont(contenuCommande.getFont().deriveFont(20f));
         contenuCommande.setEditable(false);
@@ -74,27 +91,33 @@ public class CommandeContainerPanel extends JPanel {
                                 .addComponent(finPrepa)
                                 .addComponent(delivre)
                         )
-                .addComponent(contenuCommande)
+                        .addComponent(contenuCommande)
         );
 
         setBackground(Color.PINK);
-        setBorder(BorderFactory.createLineBorder(Color.BLACK,2, true));
+        setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
     }
 
-    private void createInterractions(){
-        finPrepa.addActionListener(e->{
+    /**
+     * Définit les interractions des bouttons
+     */
+    private void createInterractions() {
+        finPrepa.addActionListener(e -> {
             commande.setStatus(StatusCommande.PRETE);
             finPrepa.setEnabled(false);
             updateStatus();
         });
-        delivre.addActionListener(e->{
+        delivre.addActionListener(e -> {
             commande.setStatus(StatusCommande.REMISE);
             delivre.setEnabled(false);
             updateStatus();
         });
     }
 
-    private void updateStatus(){
+    /**
+     * Met à jour le status de la commande
+     */
+    private void updateStatus() {
         status.setText(commande.getStatus().getNom());
     }
 }

@@ -2,8 +2,8 @@ package bde;
 
 /**
  * Config class
- * Created by Thierry
- * 01/06/2017
+ *
+ * Singleton permettant de stocker les éléments de configuration de l'application
  */
 public class Config {
     private static Config ourInstance = new Config();
@@ -18,10 +18,11 @@ public class Config {
         serveurConfig = new ServeurConfig();
     }
 
-    public class ServeurConfig{
+    public class ServeurConfig {
+        // Définit si le tri des serveurs en fonction de leur rôle doit se faire automatiquement ou non
         public boolean autoSortServeurs;
 
-        private ServeurConfig(){
+        private ServeurConfig() {
             autoSortServeurs = false;
         }
     }

@@ -5,8 +5,9 @@ import java.awt.*;
 
 /**
  * CommandePanelPrincipal class
- * Created by Thierry
- * 31/05/2017
+ * <p>
+ * Panel principal de l'application pour celui à l'ordi
+ * Il regroupe les 3 panels de gestion des serveurs, des commandes et des stocks
  */
 public class CommandePanelPrincipal extends JPanel {
 
@@ -16,22 +17,28 @@ public class CommandePanelPrincipal extends JPanel {
     private GestionCommandePanel gestionCommandePanel;
     private StockPanel stockPanel;
 
-    public CommandePanelPrincipal(){
+    public CommandePanelPrincipal() {
         initComponents();
         build();
     }
 
-    private void initComponents(){
+    /**
+     * Initialise les composants du panel
+     */
+    private void initComponents() {
         tabbedPane = new JTabbedPane();
         serveurPanel = new ServeurPanel();
         gestionCommandePanel = new GestionCommandePanel();
         stockPanel = new StockPanel();
     }
 
-    private void build(){
-        tabbedPane.add("Serveurs",serveurPanel);
-        tabbedPane.add("Commandes",gestionCommandePanel);
-        tabbedPane.add("Stocks",stockPanel);
+    /**
+     * Organise les éléments sur le panel
+     */
+    private void build() {
+        tabbedPane.add("Serveurs", serveurPanel);
+        tabbedPane.add("Commandes", gestionCommandePanel);
+        tabbedPane.add("Stocks", stockPanel);
 
         setLayout(new BorderLayout());
         add(tabbedPane, BorderLayout.CENTER);

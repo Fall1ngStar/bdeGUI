@@ -2,15 +2,15 @@ package bde.models;
 
 /**
  * StatusServeur class
- * Created by Thierry
- * 31/05/2017
+ * <p>
+ * Enumération des différents postes d'un serveur
  */
 public enum StatusServeur {
-    ORDI(1),SANDWICH(3),COMMIS(2),HS(0);
+    ORDI(1), SANDWICH(3), COMMIS(2), HS(0);
 
     int priorite;
 
-    StatusServeur(int i){
+    StatusServeur(int i) {
         priorite = i;
     }
 

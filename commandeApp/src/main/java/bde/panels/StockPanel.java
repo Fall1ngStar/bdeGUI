@@ -4,8 +4,8 @@ import javax.swing.*;
 
 /**
  * StockPanel class
- * Created by Thierry
- * 31/05/2017
+ *
+ * Panel pour l'affichage et la mofidication des stocks
  */
 public class StockPanel extends JPanel {
 }

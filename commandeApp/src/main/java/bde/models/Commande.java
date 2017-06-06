@@ -1,21 +1,29 @@
-package bde;
+package bde.models;
 
 import java.util.List;
 
 /**
  * Commande class
- * Created by Thierry
- * 01/06/2017
+ * <p>
+ * Classe permettant de représenter une commande
  */
 public class Commande {
 
     private static int nbCommandes = 0;
 
+    // Numéro de la commande
     private int idCommande;
+
+    // Liste des ingrédients, types, boissons, desserts ...
+    // TODO: Modifier le type de stockage des ingrédients (à voir en même temps que la gestion des stocks)
     private List<String> contenu;
     private StatusCommande status;
     private double prix;
 
+    /**
+     * @param contenu Le contenu de la commande
+     * @param prix    le prix
+     */
     public Commande(List<String> contenu, double prix) {
         this.contenu = contenu;
         status = StatusCommande.PREPARATION;

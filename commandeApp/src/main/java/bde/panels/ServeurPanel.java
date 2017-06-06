@@ -1,7 +1,6 @@
 package bde.panels;
 
 import bde.Config;
-import bde.ServeurStatusComponent;
 import bde.models.Serveur;
 import bde.models.StatusServeur;
 
@@ -12,8 +11,8 @@ import java.util.List;
 
 /**
  * ServeurPanel class
- * Created by Thierry
- * 31/05/2017
+ * <p>
+ * Panel de gestion des serveurs
  */
 public class ServeurPanel extends JPanel {
 
@@ -22,12 +21,14 @@ public class ServeurPanel extends JPanel {
     private Serveur[] serveurs = {new Serveur("Serveur 1"), new Serveur("Serveur 2"), new Serveur("Serveur 3"), new Serveur("Serveur 4"), new Serveur("Serveur 5"), new Serveur("Serveur 6")};
 
     public ServeurPanel() {
-        serveurs[2].setStatus(StatusServeur.SANDWICH);
-        initComponents();
+        build();
     }
 
-    private void initComponents() {
-        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+    /**
+     * Organise les composants
+     */
+    private void build() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         listeServeurControls = new ArrayList<>();
         for (Serveur s : serveurs) {
             listeServeurControls.add(new ServeurStatusComponent(s, this));
@@ -36,7 +37,10 @@ public class ServeurPanel extends JPanel {
     }
 
 
-    public void updateServeurListOrder(){
+    /**
+     * Met à jour l'ordre des serveurs en fonction de leur rôle
+     */
+    public void updateServeurListOrder() {
         if (Config.getInstance().serveurConfig.autoSortServeurs) {
             removeAll();
             listeServeurControls.sort(Comparator.comparing(ServeurStatusComponent::getServeur));

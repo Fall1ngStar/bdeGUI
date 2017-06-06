@@ -2,14 +2,14 @@ package bde.models;
 
 /**
  * Serveur class
- * Created by Thierry
- * 31/05/2017
+ * <p>
+ * Classe représentant un serveur
  */
-public class Serveur implements Comparable<Serveur>{
+public class Serveur implements Comparable<Serveur> {
     private String nom;
     private StatusServeur status;
 
-    public Serveur(String nom){
+    public Serveur(String nom) {
         this.nom = nom;
         status = StatusServeur.HS;
     }
@@ -35,8 +35,13 @@ public class Serveur implements Comparable<Serveur>{
         return nom;
     }
 
+    /**
+     * Permet de trier les serveurs en fonction de leur status
+     *
+     * @param o l'autre serveur à comparer à l'instance
+     */
     @Override
     public int compareTo(Serveur o) {
-        return Integer.compare(o.status.getPriorite(), this.status.getPriorite()) ;
+        return Integer.compare(o.status.getPriorite(), this.status.getPriorite());
     }
 }

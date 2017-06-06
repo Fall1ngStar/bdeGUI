@@ -1,4 +1,4 @@
-package bde;
+package bde.panels;
 
 import bde.actions.SetStatusAction;
 import bde.models.Serveur;
@@ -11,13 +11,18 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 /**
- * Created by Thierry on 31/05/2017.
+ *  Conteneur permettant d'afficher et de modifier le status d'un serveur
  */
 public class ServeurStatusComponent extends JPanel {
 
+    // Le serveur à afficher et modifier
     private Serveur serveur;
 
+    // TextField contenant le nom du serveur
+    // TODO: changer le nom du serveur quand ce textfield est modifié
     private JTextField nomServeur;
+
+    // Objets permettant la sélection et l'affichage du status du serveur
     private ButtonGroup statusServeurGroup;
     private JRadioButton ordi, sandwich, commis, nservice;
 
@@ -30,16 +35,22 @@ public class ServeurStatusComponent extends JPanel {
         build();
     }
 
+    /**
+     * Initialise les différents éléments à afficher
+     */
     private void initComponents() {
         nomServeur = new JTextField(serveur.getNom());
         statusServeurGroup = new ButtonGroup();
 
-        ordi = new JRadioButton(new SetStatusAction("Ordi", StatusServeur.ORDI,this));
-        sandwich = new JRadioButton(new SetStatusAction("Sandwichs",StatusServeur.SANDWICH,this));
-        commis = new JRadioButton(new SetStatusAction("Commis",StatusServeur.COMMIS,this));
-        nservice = new JRadioButton(new SetStatusAction("Pas en service",StatusServeur.HS,this));
+        ordi = new JRadioButton(new SetStatusAction("Ordi", StatusServeur.ORDI, this));
+        sandwich = new JRadioButton(new SetStatusAction("Sandwichs", StatusServeur.SANDWICH, this));
+        commis = new JRadioButton(new SetStatusAction("Commis", StatusServeur.COMMIS, this));
+        nservice = new JRadioButton(new SetStatusAction("Pas en service", StatusServeur.HS, this));
     }
 
+    /**
+     * Organise les éléments dans le conteneur
+     */
     private void build() {
         nomServeur.setColumns(15);
         add(nomServeur);
@@ -70,22 +81,6 @@ public class ServeurStatusComponent extends JPanel {
         add(commis);
         add(sandwich);
 
-        nomServeur.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                System.out.println(nomServeur.getText());
-            }
-        });
     }
 
     @Override
@@ -102,6 +97,9 @@ public class ServeurStatusComponent extends JPanel {
         return parent;
     }
 
+    /**
+     * Met à jour la couleur de fond en fonction du status du serveur
+     */
     public void updateColor() {
         switch (serveur.getStatus()) {
             case COMMIS:
