@@ -1,8 +1,11 @@
 package bde.panels;
 
+import bde.CommandeContainerContextMenu;
 import bde.models.Commande;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -38,7 +41,10 @@ public class GestionCommandePanel extends JPanel {
                         @Override
                         public void windowClosed(WindowEvent e) {
                             // A la fermeture de la fenêtre de création de commande, récupère la commande crée
-                            GestionCommandePanel.this.addCommande(wizard.getCommande());
+                            Commande c = wizard.getCommande();
+                            if (c != null) {
+                                GestionCommandePanel.this.addCommande(c);
+                            }
                         }
                     }
             );
@@ -48,11 +54,29 @@ public class GestionCommandePanel extends JPanel {
 
     /**
      * Ajoute une commande dans un {@link CommandeContainerPanel CommandeContainerPanel} au panel
-     *
      * @param c la commande à ajouter
      */
     private void addCommande(Commande c) {
-        add(new CommandeContainerPanel(c));
+        final CommandeContainerPanel ccp = new CommandeContainerPanel(c);
+        ccp.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPopup(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                showPopup(e);
+            }
+
+            private void showPopup(MouseEvent e){
+                JPopupMenu context = new CommandeContainerContextMenu(GestionCommandePanel.this,ccp);
+                if(e.isPopupTrigger()){
+                    context.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+        add(ccp);
         repaint();
         revalidate();
     }

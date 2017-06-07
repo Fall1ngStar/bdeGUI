@@ -194,7 +194,6 @@ public class CommandeWizard extends JDialog {
                 return button.getText();
             }
         }
-
         return null;
     }
 
@@ -202,6 +201,7 @@ public class CommandeWizard extends JDialog {
      * @return La commande crée
      */
     public Commande getCommande() {
+        if(contenuCommande.getText().equalsIgnoreCase("")) return null;
         java.util.List<String> contenu = new ArrayList<>();
         String[] contenuArray = contenuCommande.getText().split("\n");
         for (String s : contenuArray) {
