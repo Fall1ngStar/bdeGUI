@@ -51,6 +51,8 @@ public class CommandeWizard extends JDialog {
     private JRadioButton[] types;
     private JPanel typesContainer;
 
+    private boolean prete;
+
     public CommandeWizard() {
         initComponent();
         build();
@@ -69,13 +71,15 @@ public class CommandeWizard extends JDialog {
         ingredientsContainer = new JPanel();
         otherContainer = new JPanel();
         contenuCommande = new JTextArea();
-        push = new JButton("Ajouter à la contenuCommande");
-        finalise = new JButton("Finaliser la contenuCommande");
+        push = new JButton("Ajouter à la commande");
+        finalise = new JButton("Finaliser la commande");
         prixLabel = new JLabel("0,00 €");
 
         typeGroup = new ButtonGroup();
         types = new JRadioButton[sandwichs.length];
         typesContainer = new JPanel();
+
+        prete = false;
     }
 
     /**
@@ -151,7 +155,7 @@ public class CommandeWizard extends JDialog {
         setContentPane(panel);
         setSize(800, 700);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Création de contenuCommande");
         setVisible(true);
     }
@@ -180,7 +184,10 @@ public class CommandeWizard extends JDialog {
         });
 
         // Ferme la fenêtre (La commande est récupéré par le GestionCommandPanel
-        finalise.addActionListener(e -> dispose());
+        finalise.addActionListener(e -> {
+            prete = true;
+            dispose();
+        });
     }
 
     /**
@@ -201,7 +208,7 @@ public class CommandeWizard extends JDialog {
      * @return La commande crée
      */
     public Commande getCommande() {
-        if(contenuCommande.getText().equalsIgnoreCase("")) return null;
+        if(contenuCommande.getText().equalsIgnoreCase("") || !prete) return null;
         java.util.List<String> contenu = new ArrayList<>();
         String[] contenuArray = contenuCommande.getText().split("\n");
         for (String s : contenuArray) {
