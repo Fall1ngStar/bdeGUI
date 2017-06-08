@@ -120,4 +120,9 @@ public class CommandeContainerPanel extends JPanel {
     private void updateStatus() {
         status.setText(commande.getStatus().getNom());
     }
+
+    @Override
+    public Dimension getMaximumSize() {
+        return super.getPreferredSize();
+    }
 }

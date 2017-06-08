@@ -81,6 +81,7 @@ public class ServeurStatusComponent extends JPanel {
         add(commis);
         add(sandwich);
 
+        nomServeur.addActionListener(e-> serveur.setNom(e.getActionCommand()));
     }
 
     @Override
