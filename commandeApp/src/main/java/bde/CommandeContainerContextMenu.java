@@ -14,8 +14,10 @@ import java.awt.event.ActionListener;
 public class CommandeContainerContextMenu extends JPopupMenu {
     JMenuItem delete;
     JMenu moveTo;
+    ListeCommandeServeur parent;
     int i;
     public  CommandeContainerContextMenu(ListeCommandeServeur parent, CommandeContainerPanel toMove,ListeCommandeServeur[] serveurs){
+        this.parent = parent;
         delete = new JMenuItem("Supprimer la commande");
         moveTo = new JMenu("Définir le serveur");
         for(i = 0; i < serveurs.length; i++){
@@ -26,10 +28,10 @@ public class CommandeContainerContextMenu extends JPopupMenu {
         add(delete);
         add(moveTo);
         delete.addActionListener(e->{
-            if (JOptionPane.showConfirmDialog(parent,"Voulez-vous vraiment supprimer cette commande ?","Alerte",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-                parent.remove(toMove);
-                parent.repaint();
-                parent.revalidate();
+            if (JOptionPane.showConfirmDialog(CommandeContainerContextMenu.this.parent,"Voulez-vous vraiment supprimer cette commande ?","Alerte",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                CommandeContainerContextMenu.this.parent.remove(toMove);
+                CommandeContainerContextMenu.this.parent.repaint();
+                CommandeContainerContextMenu.this.parent.revalidate();
             }
         });
     }
@@ -53,6 +55,7 @@ public class CommandeContainerContextMenu extends JPopupMenu {
             from.revalidate();
             to. repaint();
             to.revalidate();
+            CommandeContainerContextMenu.this.parent = to;
         }
     }
 }

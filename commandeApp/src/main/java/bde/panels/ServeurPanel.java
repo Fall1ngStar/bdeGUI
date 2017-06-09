@@ -1,8 +1,8 @@
 package bde.panels;
 
 import bde.Config;
+import bde.Manager;
 import bde.models.Serveur;
-import bde.models.StatusServeur;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class ServeurPanel extends JPanel {
     private void build() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         listeServeurControls = new ArrayList<>();
-        for (Serveur s : serveurs) {
+        for (Serveur s : Manager.getInstance().getServeurs()) {
             listeServeurControls.add(new ServeurStatusComponent(s, this));
         }
         listeServeurControls.forEach(e -> ServeurPanel.this.add(e));

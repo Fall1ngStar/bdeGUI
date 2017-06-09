@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="bde.bdd">
+  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.2">
+    <root id="1"/>
+    <schema id="2" parent="1" name="main">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <table id="3" parent="2" name="COMMANDE"/>
+    <table id="4" parent="2" name="INGREDIENTS"/>
+    <table id="5" parent="2" name="ING_CMD"/>
+    <table id="6" parent="2" name="SERVEURS"/>
+    <table id="7" parent="2" name="sqlite_master"/>
+    <table id="8" parent="2" name="sqlite_sequence"/>
+    <column id="9" parent="3" name="ID_COMMANDE">
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="10" parent="3" name="NUM_COMMANDE">
+      <Position>1</Position>
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="11" parent="3" name="STATUS_COMMANDE">
+      <Position>2</Position>
+      <DataType>TEXT|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="12" parent="3" name="DATE">
+      <Position>3</Position>
+      <DataType>TEXT|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="13" parent="3">
+      <ColNames>ID_COMMANDE</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="14" parent="4" name="ID_INGREDIENT">
+      <DataType>INTEGER|0</DataType>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="15" parent="4" name="LIBELLE">
+      <Position>1</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="16" parent="4" name="STOCK">
+      <Position>2</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <column id="17" parent="4" name="TYPE_INGREDIENT">
+      <Position>3</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <key id="18" parent="4">
+      <ColNames>ID_INGREDIENT</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="19" parent="5" name="ID_COMMANDE">
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <column id="20" parent="5" name="ID_INGREDIENT">
+      <Position>1</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <column id="21" parent="5" name="NUM_ORDRE">
+      <Position>2</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <column id="22" parent="6" name="ID_SERVEUR">
+      <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="23" parent="6" name="NOM_SERVEUR">
+      <Position>1</Position>
+      <DataType>TEXT|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="24" parent="6">
+      <ColNames>ID_SERVEUR</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="25" parent="7" name="type">
+      <DataType>text|0</DataType>
+    </column>
+    <column id="26" parent="7" name="name">
+      <Position>1</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="27" parent="7" name="tbl_name">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="28" parent="7" name="rootpage">
+      <Position>3</Position>
+      <DataType>integer|0</DataType>
+    </column>
+    <column id="29" parent="7" name="sql">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="30" parent="8" name="name">
+      <DataType>|0</DataType>
+    </column>
+    <column id="31" parent="8" name="seq">
+      <Position>1</Position>
+      <DataType>|0</DataType>
+    </column>
+  </database-model>
+</dataSource>
