@@ -4,6 +4,9 @@ import bde.models.Commande;
 import bde.models.Serveur;
 
 import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,19 +30,21 @@ public class ConnexionBDD {
             ResultSet rs = stmt.executeQuery("SELECT name FROM sqlite_master WHERE type='table' ");
             int nbTables = 0;
             while (rs.next()) nbTables++;
-            if (nbTables == 0) initDatabase();
+            if (nbTables < 4) initDatabase();
         }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Erreur : Impossible de se connecter à la base de donnée");
+            JOptionPane.showMessageDialog(null, "Erreur avec la base de données");
             e.printStackTrace();
             System.exit(-1);
         }
     }
 
     private void initDatabase() throws SQLException{
-        stmt.execute("CREATE TABLE SERVEURS(ID_SERVEUR INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, NOM_SERVEUR TEXT NOT NULL)");
-        stmt.execute("CREATE TABLE COMMANDE(ID_COMMANDE INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, NUM_COMMANDE INTEGER NOT NULL, STATUS_COMMANDE TEXT NOT NULL, DATE TEXT NOT NULL)");
-        stmt.execute("CREATE TABLE ING_CMD (ID_COMMANDE INTEGER, ID_INGREDIENT INTEGER, NUM_ORDRE INTEGER)");
-        stmt.execute("CREATE TABLE INGREDIENTS (ID_INGREDIENT INTEGER PRIMARY KEY , LIBELLE TEXT, STOCK INTEGER, TYPE_INGREDIENT TEXT)");
+        ScriptRunner runner = new ScriptRunner(connection, false, false);
+        try {
+            runner.runScript(new BufferedReader(new FileReader("init_script.sql")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static  ConnexionBDD getInstance(){
@@ -80,6 +85,19 @@ public class ConnexionBDD {
         }
     }
 
+    public List<String> getListeElem(String categorie){
+        List<String> elems = new ArrayList<>();
+        try {
+            ResultSet rs = stmt.executeQuery("SELECT LIBELLE FROM INGREDIENTS WHERE TYPE_INGREDIENT = '" + categorie + "'");
+            while(rs.next()){
+                elems.add(rs.getString(1));
+            }
+            return elems;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void main(String[] arr){
         ConnexionBDD.getInstance().insertCommande(new Commande(null, 10));

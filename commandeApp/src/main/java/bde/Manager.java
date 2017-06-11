@@ -21,11 +21,13 @@ public class Manager {
     private List<Serveur> serveurs;
     private List<Commande> commandes;
     private Map<ListeCommandeServeur, List<CommandeContainerPanel>> listesCommandes;
+    private Map<String, List<String>> ingredients;
 
     private Manager(){
         serveurs = new ArrayList<>();
         commandes = new ArrayList<>();
         listesCommandes = new HashMap<>();
+        ingredients = new HashMap<>();
         init();
     }
 
@@ -35,6 +37,10 @@ public class Manager {
 
     private void init(){
         serveurs.addAll(ConnexionBDD.getInstance().getServeurs());
+        ingredients.put("Boisson", ConnexionBDD.getInstance().getListeElem("Boisson"));
+        ingredients.put("Sauce", ConnexionBDD.getInstance().getListeElem("Sauce"));
+        ingredients.put("Dessert", ConnexionBDD.getInstance().getListeElem("Dessert"));
+
     }
 
     public List<Serveur> getServeurs() {
@@ -47,5 +53,9 @@ public class Manager {
 
     public Map<ListeCommandeServeur, List<CommandeContainerPanel>> getListesCommandes() {
         return listesCommandes;
+    }
+
+    public String[] getIngredientFromType(String type){
+        return ingredients.get(type).toArray(new String[ingredients.get(type).size()]);
     }
 }

@@ -1,12 +1,14 @@
 package bde.panels;
 
-import bde.models.IngredientsList;
+import bde.Manager;
 import bde.models.Commande;
 import bde.models.IngredientListModel;
+import bde.models.IngredientsList;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 
 /**
@@ -64,9 +66,9 @@ public class CommandeWizard extends JDialog {
      */
     private void initComponent() {
         listeIngredients = new IngredientsList(new IngredientListModel(ingredients));
-        listeSauces = new IngredientsList(new IngredientListModel(sauces));
-        listeDesserts = new IngredientsList(new IngredientListModel(desserts));
-        listeBoissons = new IngredientsList(new IngredientListModel(boissons));
+        listeSauces = new IngredientsList(new IngredientListModel(Manager.getInstance().getIngredientFromType("Sauce")));
+        listeDesserts = new IngredientsList(new IngredientListModel(Manager.getInstance().getIngredientFromType("Dessert")));
+        listeBoissons = new IngredientsList(new IngredientListModel(Manager.getInstance().getIngredientFromType("Boisson")));
         panel = new JPanel();
         ingredientsContainer = new JPanel();
         otherContainer = new JPanel();
@@ -114,10 +116,7 @@ public class CommandeWizard extends JDialog {
 
 
         //Affiche le contenu de la commande et les autres bouttons
-        contenuCommande.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.BLACK),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
+        contenuCommande.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         contenuCommande.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(contenuCommande);
 
@@ -140,14 +139,16 @@ public class CommandeWizard extends JDialog {
                         .addGroup(
                                 layout.createSequentialGroup()
                                         .addComponent(push)
-                                        .addGap(10)
+                                        .addGap(100)
                                         .addComponent(prixLabel)
                                         .addGap(10)
                                         .addComponent(finalise)
+                                        .addGap(20)
                         )
         );
         otherContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridLayout(2, 1));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(ingredientsContainer);
         panel.add(otherContainer);
 
@@ -208,12 +209,10 @@ public class CommandeWizard extends JDialog {
      * @return La commande crée
      */
     public Commande getCommande() {
-        if(contenuCommande.getText().equalsIgnoreCase("") || !prete) return null;
+        if (contenuCommande.getText().equalsIgnoreCase("") || !prete) return null;
         java.util.List<String> contenu = new ArrayList<>();
         String[] contenuArray = contenuCommande.getText().split("\n");
-        for (String s : contenuArray) {
-            contenu.add(s);
-        }
+        contenu.addAll(Arrays.asList(contenuArray));
         Commande c = new Commande(contenu, 0);
         JOptionPane.showMessageDialog(this, "Commande n°" + c.getIdCommande());
         return c;
