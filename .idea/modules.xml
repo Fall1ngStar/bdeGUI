@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/bde-GUI.iml" filepath="$PROJECT_DIR$/bde-GUI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/commandeApp/commandeApp.iml" filepath="$PROJECT_DIR$/commandeApp/commandeApp.iml" />
-    </modules>
-  </component>
-</project>

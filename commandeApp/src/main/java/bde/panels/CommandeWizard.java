@@ -162,7 +162,7 @@ public class CommandeWizard extends JDialog {
         push.addActionListener(e -> {
             String type = getSelectedButtonText(typeGroup);
             affichageContenuCommande.append(type == null ? "" : type + "\n");
-            if (!type.equals("")) {
+            if (type != null && !type.equals("")) {
                 contenuCommande.add(new String[]{"Type", type});
             }
 
