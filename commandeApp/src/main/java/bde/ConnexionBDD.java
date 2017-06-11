@@ -9,9 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Thierry on 08/06/2017.
@@ -22,8 +20,11 @@ public class ConnexionBDD {
     private Connection connection;
     private Statement stmt;
 
+    private Map<String, Integer> idIngredients;
+
     private ConnexionBDD() {
-        try{
+        idIngredients = new HashMap<>();
+        try {
             connection = DriverManager.getConnection("jdbc:sqlite:bde.bdd");
             stmt = connection.createStatement();
 
@@ -31,14 +32,14 @@ public class ConnexionBDD {
             int nbTables = 0;
             while (rs.next()) nbTables++;
             if (nbTables < 4) initDatabase();
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erreur avec la base de données");
             e.printStackTrace();
             System.exit(-1);
         }
     }
 
-    private void initDatabase() throws SQLException{
+    private void initDatabase() throws SQLException {
         ScriptRunner runner = new ScriptRunner(connection, false, false);
         try {
             runner.runScript(new BufferedReader(new FileReader("init_script.sql")));
@@ -47,15 +48,15 @@ public class ConnexionBDD {
         }
     }
 
-    public static  ConnexionBDD getInstance(){
+    public static ConnexionBDD getInstance() {
         return instance;
     }
 
-    public List<Serveur> getServeurs(){
+    public List<Serveur> getServeurs() {
         List<Serveur> result = new ArrayList<>();
         try {
             ResultSet rs = stmt.executeQuery("SELECT NOM_SERVEUR FROM SERVEURS");
-            while(rs.next()){
+            while (rs.next()) {
                 result.add(new Serveur(rs.getString(1)));
             }
             return result;
@@ -65,32 +66,45 @@ public class ConnexionBDD {
         return null;
     }
 
-    public void addServeur(Serveur s){
-        try{
-            stmt.executeUpdate("INSERT INTO SERVEURS VALUES ("+s.getNom()+")");
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void insertCommande(Commande c){
+    public void addServeur(Serveur s) {
         try {
-            stmt.executeUpdate("INSERT INTO COMMANDE(NUM_COMMANDE, STATUS_COMMANDE, DATE) VALUES ("
-                    + c.getIdCommande() + ", '"
-                    + c.getStatus().getDataRepresentation() +"', '"
-                    + new SimpleDateFormat("dd MM yyyy").format(Calendar.getInstance().getTime())
-                    +"' )");
+            stmt.executeUpdate("INSERT INTO SERVEURS VALUES (" + s.getNom() + ")");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public List<String> getListeElem(String categorie){
+    public void insertCommande(Commande c) {
+        try {
+            stmt.executeUpdate("INSERT INTO COMMANDE(NUM_COMMANDE, STATUS_COMMANDE, DATE) VALUES ("
+                    + c.getIdCommande() + ", '"
+                    + c.getStatus().getDataRepresentation() + "', '"
+                    + new SimpleDateFormat("dd MM yyyy").format(Calendar.getInstance().getTime())
+                    + "' )");
+            ResultSet rs = stmt.executeQuery("SELECT ID_COMMANDE FROM COMMANDE WHERE NUM_COMMANDE = " + c.getIdCommande() + " AND DATE = '" + new SimpleDateFormat("dd MM yyyy").format(Calendar.getInstance().getTime()) + "'");
+            rs.next();
+            int UID = rs.getInt(1);
+            for (int i = 0; i < c.getContenu().size(); i++) {
+                int id;
+                if(c.getContenu().get(i).equals("Sandwich")) id = 47;
+                else if(c.getContenu().get(i).equals("Hot Dog")) id = 47;
+                else if(c.getContenu().get(i).equals("Wrap")) id = 49;
+                else if(c.getContenu().get(i).equals("Panini")) id = 48;
+                else id = idIngredients.get(c.getContenu().get(i));
+                stmt.executeUpdate("INSERT INTO ING_CMD VALUES (" + UID + ", " + id + ", " + (i + 1) + ")");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<String> getListeElem(String categorie) {
         List<String> elems = new ArrayList<>();
         try {
-            ResultSet rs = stmt.executeQuery("SELECT LIBELLE FROM INGREDIENTS WHERE TYPE_INGREDIENT = '" + categorie + "'");
-            while(rs.next()){
+            ResultSet rs = stmt.executeQuery("SELECT LIBELLE, ID_INGREDIENT FROM INGREDIENTS WHERE TYPE_INGREDIENT = '" + categorie + "'");
+            while (rs.next()) {
                 elems.add(rs.getString(1));
+                idIngredients.put(rs.getString(1), new Integer(rs.getInt(2)));
             }
             return elems;
         } catch (SQLException e) {
@@ -99,7 +113,7 @@ public class ConnexionBDD {
         return null;
     }
 
-    public static void main(String[] arr){
+    public static void main(String[] arr) {
         ConnexionBDD.getInstance().insertCommande(new Commande(null, 10));
     }
 }

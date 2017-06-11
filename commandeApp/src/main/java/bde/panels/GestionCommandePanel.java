@@ -1,6 +1,9 @@
 package bde.panels;
 
 import bde.ListeCommandeServeur;
+import bde.Manager;
+import bde.ManagerEvent;
+import bde.ManagerObserver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,11 +13,13 @@ import java.awt.*;
  * <p>
  * Panel pour la gestion des commandes
  */
-public class GestionCommandePanel extends JPanel {
+public class GestionCommandePanel extends JPanel implements ManagerObserver{
 
     ListeCommandeServeur lcs1, lcs2, lcs3;
 
     public GestionCommandePanel() {
+        Manager.getInstance().addObserver(this);
+
         intiComponents();
         build();
     }
@@ -56,4 +61,12 @@ public class GestionCommandePanel extends JPanel {
         return new ListeCommandeServeur[]{lcs1,lcs2,lcs3};
     }
 
+    @Override
+    public void handleEvent(ManagerEvent e) {
+        switch (e.getType()){
+            case AJOUT_COMMANDE:
+                System.out.println("Nouvelle commande !");
+                break;
+        }
+    }
 }

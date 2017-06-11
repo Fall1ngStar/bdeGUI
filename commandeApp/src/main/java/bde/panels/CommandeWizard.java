@@ -34,6 +34,7 @@ public class CommandeWizard extends JDialog {
     // Label affichant le prix
     // TODO: Calculer le prix
     private JLabel prixLabel;
+    private double prix;
 
     // Objets permettant la sélection du type de plat principal
     private ButtonGroup typeGroup;
@@ -214,33 +215,20 @@ public class CommandeWizard extends JDialog {
         return null;
     }
 
-    /**
-     * @return La commande crée
-     */
-    public Commande getCommande() {
-        if (affichageContenuCommande.getText().equalsIgnoreCase("") || !prete) return null;
-        java.util.List<String> contenu = new ArrayList<>();
-        String[] contenuArray = affichageContenuCommande.getText().split("\n");
-        contenu.addAll(Arrays.asList(contenuArray));
-        Commande c = new Commande(contenu, 0);
-        JOptionPane.showMessageDialog(this, "Commande n°" + c.getIdCommande());
-        return c;
-    }
-
     private void updatePrix() {
-        double prix = 0.0;
+        prix = 0.0;
         int nbPlat = 0;
-        int nbSauce =0;
-        int nbIngredient=0;
+        int nbSauce = 0;
+        int nbIngredient = 0;
         int nbDessert = 0;
         int nbBoisson = 0;
 
-        for (String[] element: contenuCommande){
-            switch (element[0]){
+        for (String[] element : contenuCommande) {
+            switch (element[0]) {
                 case "Type":
                     nbPlat += 1;
-                    nbIngredient=0;
-                    nbSauce=0;
+                    nbIngredient = 0;
+                    nbSauce = 0;
                     switch (element[1]) {
                         case "Sandwich":
                         case "Wrap":
@@ -257,11 +245,11 @@ public class CommandeWizard extends JDialog {
                     break;
                 case "Ingredient":
                     nbIngredient++;
-                    if (nbIngredient>3)prix += 0.3;
+                    if (nbIngredient > 3) prix += 0.3;
                     break;
                 case "Sauce":
                     nbSauce++;
-                    if (nbSauce>2)prix += 0.3;
+                    if (nbSauce > 2) prix += 0.3;
                     break;
                 case "Boisson":
                     nbBoisson++;
@@ -270,13 +258,28 @@ public class CommandeWizard extends JDialog {
                 case "Dessert":
                     nbDessert++;
                     prix += 0.8;
-                    if(element[1]=="Panini Nutella") prix+=0.2;
+                    if (element[1] == "Panini Nutella") prix += 0.2;
                     break;
-                }
+            }
         }
         prix -= Math.min(nbPlat, Math.min(nbBoisson, nbDessert)) * 0.3;
         prixLabel.setText(String.format("%.2f", prix) + " €");
 
+    }
+
+    /**
+     * @return La commande créée
+     */
+    public Commande getCommande() {
+        if (affichageContenuCommande.getText().equalsIgnoreCase("") || !prete) return null;
+        java.util.List<String> contenu = new ArrayList<>();
+        for (String[] elem : contenuCommande) {
+            contenu.add(elem[1]);
+        }
+        Commande c = new Commande(contenu, 0);
+        Manager.getInstance().addCommande(c);
+        JOptionPane.showMessageDialog(this, "Commande n°" + c.getIdCommande());
+        return c;
     }
 
 }

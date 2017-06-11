@@ -19,5 +19,6 @@ public class CommandeApp {
         } catch (Exception ex) {
         }
         SwingUtilities.invokeLater(CommandeAppFenetre::new);
+        SwingUtilities.invokeLater(ServeurAppFenetre::new);
     }
 }

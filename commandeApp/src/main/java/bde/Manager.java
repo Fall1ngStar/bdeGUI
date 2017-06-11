@@ -23,11 +23,14 @@ public class Manager {
     private Map<ListeCommandeServeur, List<CommandeContainerPanel>> listesCommandes;
     private Map<String, List<String>> ingredients;
 
+    private List<ManagerObserver> observers;
+
     private Manager(){
         serveurs = new ArrayList<>();
         commandes = new ArrayList<>();
         listesCommandes = new HashMap<>();
         ingredients = new HashMap<>();
+        observers = new ArrayList<>();
         init();
     }
 
@@ -58,5 +61,20 @@ public class Manager {
 
     public String[] getIngredientFromType(String type){
         return ingredients.get(type).toArray(new String[ingredients.get(type).size()]);
+    }
+
+    public void addObserver(ManagerObserver observer){
+        observers.add(observer);
+    }
+
+    public void addCommande(Commande c){
+        commandes.add(c);
+        ConnexionBDD.getInstance().insertCommande(c);
+        fireEvent(new ManagerEvent(ManagerEventType.AJOUT_COMMANDE));
+    }
+
+    private void fireEvent(ManagerEvent e){
+        System.out.println("Nombre d'observeurs : " + observers.size() );
+        observers.forEach(o -> o.handleEvent(e));
     }
 }

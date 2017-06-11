@@ -1,5 +1,8 @@
 package bde.panels;
 
+import bde.Manager;
+import bde.ManagerEvent;
+import bde.ManagerObserver;
 import bde.models.StatusCommande;
 import bde.models.Commande;
 
@@ -12,7 +15,7 @@ import java.awt.*;
  * Conteneur permettant l'affichage d'une commande
  * Utilisé dans le {@link GestionCommandePanel GestionCommandePanel}
  */
-public class CommandeContainerPanel extends JPanel {
+public class CommandeContainerPanel extends JPanel{
 
     // La commande liée à ce panel
     private Commande commande;
@@ -29,6 +32,7 @@ public class CommandeContainerPanel extends JPanel {
      */
     public CommandeContainerPanel(Commande commande) {
         this.commande = commande;
+
         initComponent();
         build();
         createInterractions();
@@ -104,6 +108,7 @@ public class CommandeContainerPanel extends JPanel {
     private void createInterractions() {
         finPrepa.addActionListener(e -> {
             commande.setStatus(StatusCommande.PRETE);
+            contenuCommande.setVisible(false);
             finPrepa.setEnabled(false);
             updateStatus();
         });
