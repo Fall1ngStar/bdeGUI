@@ -228,49 +228,55 @@ public class CommandeWizard extends JDialog {
     }
 
     private void updatePrix() {
-        int nbSandwich = 0, nbBoisson = 0, nbDessert = 0, nbSauce = 0, nbIngredient = 0;
         double prix = 0.0;
+        int nbPlat = 0;
+        int nbSauce =0;
+        int nbIngredient=0;
+        int nbDessert = 0;
+        int nbBoisson = 0;
 
-        for (String[] element : contenuCommande) {
-            switch (element[0]) {
-                case "Sauce":
-                    nbSauce++;
-                    break;
-                case "Boisson":
-                    nbBoisson++;
-                    break;
-                case "Dessert":
-                    nbDessert++;
-                    break;
-                case "Ingredient":
-                    nbIngredient++;
-                    break;
+        for (String[] element: contenuCommande){
+            switch (element[0]){
                 case "Type":
-                    nbSandwich++;
-                    break;
-            }
-        }
-
-        if (nbSandwich > 0) {
-            for (String[] element : contenuCommande) {
-                if (element[0].equals("Type")) {
+                    nbPlat += 1;
+                    nbIngredient=0;
+                    nbSauce=0;
                     switch (element[1]) {
                         case "Sandwich":
                         case "Wrap":
                             prix += 2.0;
                             break;
                         case "Hot Dog":
-                            prix += 1.0;
+                            prix += 1.5;
                             break;
                         case "Panini":
                             prix += 2.5;
                             break;
                         default:
                     }
+                    break;
+                case "Ingredient":
+                    nbIngredient++;
+                    if (nbIngredient>3)prix += 0.3;
+                    break;
+                case "Sauce":
+                    nbSauce++;
+                    if (nbSauce>2)prix += 0.3;
+                    break;
+                case "Boisson":
+                    nbBoisson++;
+                    prix += 0.5;
+                    break;
+                case "Dessert":
+                    nbDessert++;
+                    prix += 80;
+                    if(element[1]=="Panini Nutella") prix+=0.2;
+                    break;
                 }
-            }
+        prix -= Math.min(nbPlat, Math.min(nbBoisson, nbDessert)) * 0.3;
         }
-
         prixLabel.setText(String.format("%.2f", prix) + " €");
+
     }
+
 }
