@@ -34,9 +34,10 @@ INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
   ('Ice Tea',10,'Boisson'),
   ('7up',10,'Boisson'),
   ('Schweppes Agrumes',10,'Boisson'),
-  ('Oasis Tropical',10,'Boisson');
+  ('Oasis Tropical',10,'Boisson'),
+  ('Diabolo Grenadine',10,'Boisson');
 INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
-  ('Grenadine',10,'Boisson'),
+  ('Beurre',10,'Sauce'),
   ('Algérienne',10,'Sauce'),
   ('Barbecue',10,'Sauce'),
   ('Burger',10,'Sauce'),
@@ -70,9 +71,18 @@ INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
   ('Donut Sucre',10,'Dessert'),
   ('Muffin',10,'Dessert');
 INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
-  ('',10,''),
-  ('',10,''),
-  ('',10,'');
+  ('Brie',10,'Ingredient'),
+  ('Fromage',10,'Ingredient'),
+  ('Chèvre',10,'Ingredient');
+  ('Jambon',10,'Ingredient');
+  ('Jambon Cru',10,'Ingredient');
+  ('Rosette',10,'Ingredient');
+  ('Poulet',10,'Ingredient');
+  ('Saucisses',10,'Ingredient');
+INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
+  ('Pain',10,'Type'),
+  ('Panini',10,'Type'),
+  ('Wrap',10,'Type');
 
 SELECT * FROM INGREDIENTS;
 SELECT * FROM SERVEURS;
