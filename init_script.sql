@@ -73,16 +73,13 @@ INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
 INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
   ('Brie',10,'Ingredient'),
   ('Fromage',10,'Ingredient'),
-  ('Chèvre',10,'Ingredient');
-  ('Jambon',10,'Ingredient');
-  ('Jambon Cru',10,'Ingredient');
-  ('Rosette',10,'Ingredient');
-  ('Poulet',10,'Ingredient');
+  ('Chèvre',10,'Ingredient'),
+  ('Jambon',10,'Ingredient'),
+  ('Jambon Cru',10,'Ingredient'),
+  ('Rosette',10,'Ingredient'),
+  ('Poulet',10,'Ingredient'),
   ('Saucisses',10,'Ingredient');
 INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
   ('Pain',10,'Type'),
   ('Panini',10,'Type'),
   ('Wrap',10,'Type');
-
-SELECT * FROM INGREDIENTS;
-SELECT * FROM SERVEURS;

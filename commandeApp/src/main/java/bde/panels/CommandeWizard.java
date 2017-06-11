@@ -19,26 +19,13 @@ public class CommandeWizard extends JDialog {
     // JListes contenant les différents éléments pouvant composer une commande
     private JList<JCheckBox> listeIngredients, listeSauces, listeBoissons, listeDesserts;
 
-    // Tableaux contenant les noms des différents éléments des commandes
-    // TODO: Charger les noms des composans depuis une base de données (voir en même temps que la gestion des stocks)
+    // Tableaux contenant les noms des différents types
     private String[] sandwichs = new String[]{
             "Sandwich", "Panini", "Wrap", "Assiete garnie", "Hot Dog"
     };
-    private String[] ingredients = new String[]{
-            "Poulet", "Maïs", "Brie", "Tomate", "Salade", "Cornichons", "Saucisson", "Fromage"
-    };
-    private String[] sauces = new String[]{
-            "Curry", "Ketchup", "Mayonnaise", "Poivrons Oignons", "Algérienne", "Hamburger"
-    };
-    private String[] boissons = new String[]{
-            "7up", "Coca", "Oasis", "Schwepps", "Grenadine", "Ice Tea"
-    };
-    private String[] desserts = new String[]{
-            "Crêpe nut", "Beignet pomme", "Beignet chocolat", "Beignet framboise", "Donut", "Snikers", "KitKat", "Lion", "Muffin", "Panini nut", "Kinder bueno"
-    };
 
     // TextArea affichant le contenu de la commande
-    private JTextArea contenuCommande;
+    private JTextArea affichageContenuCommande;
 
     // Bouttons pour ajouter les éléments sélectionnés à la commande et pour finaliser la commande
     private JButton push, finalise;
@@ -55,6 +42,8 @@ public class CommandeWizard extends JDialog {
 
     private boolean prete;
 
+    private java.util.List<String[]> contenuCommande;
+
     public CommandeWizard() {
         initComponent();
         build();
@@ -65,23 +54,27 @@ public class CommandeWizard extends JDialog {
      * Initialise les différents composants
      */
     private void initComponent() {
-        listeIngredients = new IngredientsList(new IngredientListModel(ingredients));
+        listeIngredients = new IngredientsList(new IngredientListModel(Manager.getInstance().getIngredientFromType("Ingredient")));
         listeSauces = new IngredientsList(new IngredientListModel(Manager.getInstance().getIngredientFromType("Sauce")));
         listeDesserts = new IngredientsList(new IngredientListModel(Manager.getInstance().getIngredientFromType("Dessert")));
         listeBoissons = new IngredientsList(new IngredientListModel(Manager.getInstance().getIngredientFromType("Boisson")));
         panel = new JPanel();
         ingredientsContainer = new JPanel();
         otherContainer = new JPanel();
-        contenuCommande = new JTextArea();
+        affichageContenuCommande = new JTextArea();
         push = new JButton("Ajouter à la commande");
         finalise = new JButton("Finaliser la commande");
         prixLabel = new JLabel("0,00 €");
-
-        typeGroup = new ButtonGroup();
+        {
+            typeGroup = new ButtonGroup();
+            ;
+        }
         types = new JRadioButton[sandwichs.length];
         typesContainer = new JPanel();
 
         prete = false;
+
+        contenuCommande = new ArrayList<>();
     }
 
     /**
@@ -116,9 +109,9 @@ public class CommandeWizard extends JDialog {
 
 
         //Affiche le contenu de la commande et les autres bouttons
-        contenuCommande.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        contenuCommande.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(contenuCommande);
+        affichageContenuCommande.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        affichageContenuCommande.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(affichageContenuCommande);
 
         GroupLayout layout = new GroupLayout(otherContainer);
         otherContainer.setLayout(layout);
@@ -168,20 +161,36 @@ public class CommandeWizard extends JDialog {
         // Récupère tout les éléments sélectionnnés, les ajoute au contenu de la commande et réinitialise la sélection
         push.addActionListener(e -> {
             String type = getSelectedButtonText(typeGroup);
-            contenuCommande.append(type == null ? "" : type + "\n");
+            affichageContenuCommande.append(type == null ? "" : type + "\n");
+            if (!type.equals("")) {
+                contenuCommande.add(new String[]{"Type", type});
+            }
 
-            ((IngredientListModel) listeIngredients.getModel()).getSelectedItems().forEach(s -> contenuCommande.append(" - " + s + "\n"));
+            ((IngredientListModel) listeIngredients.getModel()).getSelectedItems().forEach(s -> {
+                contenuCommande.add(new String[]{"Ingredient", s});
+                affichageContenuCommande.append(" - " + s + "\n");
+            });
             ((IngredientListModel) listeIngredients.getModel()).clearSelected();
-            ((IngredientListModel) listeSauces.getModel()).getSelectedItems().forEach(s -> contenuCommande.append(" - " + s + "\n"));
+            ((IngredientListModel) listeSauces.getModel()).getSelectedItems().forEach(s -> {
+                contenuCommande.add(new String[]{"Sauce", s});
+                affichageContenuCommande.append(" - " + s + "\n");
+            });
             ((IngredientListModel) listeSauces.getModel()).clearSelected();
-            ((IngredientListModel) listeBoissons.getModel()).getSelectedItems().forEach(s -> contenuCommande.append(s + "\n"));
+            ((IngredientListModel) listeBoissons.getModel()).getSelectedItems().forEach(s -> {
+                contenuCommande.add(new String[]{"Boisson", s});
+                affichageContenuCommande.append(s + "\n");
+            });
             ((IngredientListModel) listeBoissons.getModel()).clearSelected();
-            ((IngredientListModel) listeDesserts.getModel()).getSelectedItems().forEach(s -> contenuCommande.append(s + "\n"));
+            ((IngredientListModel) listeDesserts.getModel()).getSelectedItems().forEach(s -> {
+                contenuCommande.add(new String[]{"Dessert", s});
+                affichageContenuCommande.append(s + "\n");
+            });
             ((IngredientListModel) listeDesserts.getModel()).clearSelected();
             listeIngredients.repaint();
             listeSauces.repaint();
             listeBoissons.repaint();
             listeDesserts.repaint();
+            updatePrix();
         });
 
         // Ferme la fenêtre (La commande est récupéré par le GestionCommandPanel
@@ -209,12 +218,59 @@ public class CommandeWizard extends JDialog {
      * @return La commande crée
      */
     public Commande getCommande() {
-        if (contenuCommande.getText().equalsIgnoreCase("") || !prete) return null;
+        if (affichageContenuCommande.getText().equalsIgnoreCase("") || !prete) return null;
         java.util.List<String> contenu = new ArrayList<>();
-        String[] contenuArray = contenuCommande.getText().split("\n");
+        String[] contenuArray = affichageContenuCommande.getText().split("\n");
         contenu.addAll(Arrays.asList(contenuArray));
         Commande c = new Commande(contenu, 0);
         JOptionPane.showMessageDialog(this, "Commande n°" + c.getIdCommande());
         return c;
+    }
+
+    private void updatePrix() {
+        int nbSandwich = 0, nbBoisson = 0, nbDessert = 0, nbSauce = 0, nbIngredient = 0;
+        double prix = 0.0;
+
+        for (String[] element : contenuCommande) {
+            switch (element[0]) {
+                case "Sauce":
+                    nbSauce++;
+                    break;
+                case "Boisson":
+                    nbBoisson++;
+                    break;
+                case "Dessert":
+                    nbDessert++;
+                    break;
+                case "Ingredient":
+                    nbIngredient++;
+                    break;
+                case "Type":
+                    nbSandwich++;
+                    break;
+            }
+        }
+
+        if (nbSandwich > 0) {
+            for (String[] element : contenuCommande) {
+                if (element[0].equals("Type")) {
+                    switch (element[1]) {
+                        case "Sandwich":
+                        case "Wrap":
+                            prix += 2.0;
+                            break;
+                        case "Hot Dog":
+                            prix += 1.0;
+                            break;
+                        case "Panini":
+                            prix += 2.5;
+                            break;
+                        default:
+                    }
+                }
+            }
+        }
+
+        prixLabel.setText(String.format("%.2f", prix) + " €");
     }
 }

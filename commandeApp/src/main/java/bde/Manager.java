@@ -40,6 +40,7 @@ public class Manager {
         ingredients.put("Boisson", ConnexionBDD.getInstance().getListeElem("Boisson"));
         ingredients.put("Sauce", ConnexionBDD.getInstance().getListeElem("Sauce"));
         ingredients.put("Dessert", ConnexionBDD.getInstance().getListeElem("Dessert"));
+        ingredients.put("Ingredient", ConnexionBDD.getInstance().getListeElem("Ingredient"));
 
     }
 
