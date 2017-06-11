@@ -68,7 +68,7 @@ public class ConnexionBDD {
 
     public void addServeur(Serveur s) {
         try {
-            stmt.executeUpdate("INSERT INTO SERVEURS VALUES (" + s.getNom() + ")");
+            stmt.executeUpdate("INSERT INTO SERVEURS (NOM_SERVEUR) VALUES (" + s.getNom() + ")");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -105,16 +105,12 @@ public class ConnexionBDD {
             ResultSet rs = stmt.executeQuery("SELECT LIBELLE, ID_INGREDIENT FROM INGREDIENTS WHERE TYPE_INGREDIENT = '" + categorie + "'");
             while (rs.next()) {
                 elems.add(rs.getString(1));
-                idIngredients.put(rs.getString(1), new Integer(rs.getInt(2)));
+                idIngredients.put(rs.getString(1), rs.getInt(2));
             }
             return elems;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static void main(String[] arr) {
-        ConnexionBDD.getInstance().insertCommande(new Commande(null, 10));
     }
 }
