@@ -273,8 +273,8 @@ public class CommandeWizard extends JDialog {
                     if(element[1]=="Panini Nutella") prix+=0.2;
                     break;
                 }
-        prix -= Math.min(nbPlat, Math.min(nbBoisson, nbDessert)) * 0.3;
         }
+        prix -= Math.min(nbPlat, Math.min(nbBoisson, nbDessert)) * 0.3;
         prixLabel.setText(String.format("%.2f", prix) + " €");
 
     }
