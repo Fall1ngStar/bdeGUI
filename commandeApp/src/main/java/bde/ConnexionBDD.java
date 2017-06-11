@@ -90,6 +90,7 @@ public class ConnexionBDD {
                 else if(c.getContenu().get(i).equals("Hot Dog")) id = 47;
                 else if(c.getContenu().get(i).equals("Wrap")) id = 49;
                 else if(c.getContenu().get(i).equals("Panini")) id = 48;
+                else if(c.getContenu().get(i).equals("Assiete garnie")) id = -1;
                 else id = idIngredients.get(c.getContenu().get(i));
                 stmt.executeUpdate("INSERT INTO ING_CMD VALUES (" + UID + ", " + id + ", " + (i + 1) + ")");
             }

@@ -14,7 +14,6 @@ public class ServeurAppPanel extends JPanel implements ManagerObserver {
 
     public ServeurAppPanel() {
         Manager.getInstance().addObserver(this);
-        add(new JLabel("TEst"));
         System.out.println(getComponents().length);
         setVisible(true);
     }
