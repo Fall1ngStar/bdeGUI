@@ -257,7 +257,7 @@ public class CommandeWizard extends JDialog {
                 case "Dessert":
                     nbDessert++;
                     prix += 0.8;
-                    if (element[1] == "Panini Nutella") prix += 0.2;
+                    if (element[1].equals("Panini nut")) prix += 0.2;
                     break;
             }
         }
