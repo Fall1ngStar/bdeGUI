@@ -2,6 +2,7 @@ package bde;
 
 import bde.models.Commande;
 import bde.models.Serveur;
+import bde.models.StatusCommande;
 import bde.panels.CommandeContainerPanel;
 
 import java.util.ArrayList;
@@ -69,12 +70,20 @@ public class Manager {
 
     public void addCommande(Commande c){
         commandes.add(c);
-        ConnexionBDD.getInstance().insertCommande(c);
-        fireEvent(new ManagerEvent(ManagerEventType.AJOUT_COMMANDE));
+        new Thread(()->{
+            ConnexionBDD.getInstance().insertCommande(c);
+            fireEvent(new ManagerEvent(ManagerEventType.AJOUT_COMMANDE, c));
+        }).start();
+    }
+
+    public void updateStatusCommande(Commande c, StatusCommande s){
+        if(commandes.contains(c)){
+            c.setStatus(s);
+            fireEvent(new ManagerEvent(ManagerEventType.COMMANDE_STATUS_CHANGE, c));
+        }
     }
 
     private void fireEvent(ManagerEvent e){
-        System.out.println("Nombre d'observeurs : " + observers.size() );
         observers.forEach(o -> o.handleEvent(e));
     }
 }

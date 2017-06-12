@@ -1,10 +1,8 @@
 package bde.panels;
 
 import bde.Manager;
-import bde.ManagerEvent;
-import bde.ManagerObserver;
-import bde.models.StatusCommande;
 import bde.models.Commande;
+import bde.models.StatusCommande;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +13,7 @@ import java.awt.*;
  * Conteneur permettant l'affichage d'une commande
  * Utilisé dans le {@link GestionCommandePanel GestionCommandePanel}
  */
-public class CommandeContainerPanel extends JPanel{
+public class CommandeContainerPanel extends JPanel {
 
     // La commande liée à ce panel
     private Commande commande;
@@ -107,13 +105,11 @@ public class CommandeContainerPanel extends JPanel{
      */
     private void createInterractions() {
         finPrepa.addActionListener(e -> {
-            commande.setStatus(StatusCommande.PRETE);
-            contenuCommande.setVisible(false);
-            finPrepa.setEnabled(false);
+            Manager.getInstance().updateStatusCommande(commande, StatusCommande.PRETE);
             updateStatus();
         });
         delivre.addActionListener(e -> {
-            commande.setStatus(StatusCommande.REMISE);
+            Manager.getInstance().updateStatusCommande(commande, StatusCommande.REMISE);
             delivre.setEnabled(false);
             updateStatus();
         });
@@ -122,8 +118,17 @@ public class CommandeContainerPanel extends JPanel{
     /**
      * Met à jour le status de la commande
      */
-    private void updateStatus() {
+    public void updateStatus() {
         status.setText(commande.getStatus().getNom());
+        if (commande.getStatus() == StatusCommande.PRETE) {
+            finPrepa.setEnabled(false);
+            contenuCommande.setVisible(false);
+        }
+    }
+
+    public void hideButtons(){
+        finPrepa.setVisible(false);
+        delivre.setVisible(false);
     }
 
     @Override
