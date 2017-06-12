@@ -8,7 +8,6 @@ import bde.models.IngredientsList;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 
 /**
@@ -277,7 +276,7 @@ public class CommandeWizard extends JDialog {
             contenu.add(elem[1]);
         }
         Commande c = new Commande(contenu, 0);
-        Manager.getInstance().addCommande(c);
+
         JOptionPane.showMessageDialog(this, "Commande n°" + c.getIdCommande());
         return c;
     }

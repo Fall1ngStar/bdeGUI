@@ -3,6 +3,7 @@ package bde;
 import bde.models.Commande;
 import bde.models.Serveur;
 import bde.models.StatusCommande;
+import bde.models.StatusServeur;
 import bde.panels.CommandeContainerPanel;
 
 import java.util.ArrayList;
@@ -52,6 +53,20 @@ public class Manager {
         return serveurs;
     }
 
+    public Serveur[] getServeursSandwich(){
+        int i = 0;
+        Serveur[] result = new Serveur[3];
+        for(Serveur s : serveurs){
+            if(s.getStatus() == StatusServeur.SANDWICH){
+                result[i++] = s;
+            }
+            if(i == 3){
+                return result;
+            }
+        }
+        return result;
+    }
+
     public List<Commande> getCommandes() {
         return commandes;
     }
@@ -68,11 +83,11 @@ public class Manager {
         observers.add(observer);
     }
 
-    public void addCommande(Commande c){
+    public void addCommande(Commande c, int col){
         commandes.add(c);
         new Thread(()->{
+            fireEvent(new ManagerEvent(ManagerEventType.AJOUT_COMMANDE, c, col));
             ConnexionBDD.getInstance().insertCommande(c);
-            fireEvent(new ManagerEvent(ManagerEventType.AJOUT_COMMANDE, c));
         }).start();
     }
 
@@ -81,6 +96,10 @@ public class Manager {
             c.setStatus(s);
             fireEvent(new ManagerEvent(ManagerEventType.COMMANDE_STATUS_CHANGE, c));
         }
+    }
+
+    public void updateServeurs(){
+        fireEvent(new ManagerEvent(ManagerEventType.SERVEUR_UPDATE));
     }
 
     private void fireEvent(ManagerEvent e){

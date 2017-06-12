@@ -131,6 +131,10 @@ public class CommandeContainerPanel extends JPanel {
         delivre.setVisible(false);
     }
 
+    public Commande getCommande() {
+        return commande;
+    }
+
     @Override
     public Dimension getMaximumSize() {
         return super.getPreferredSize();

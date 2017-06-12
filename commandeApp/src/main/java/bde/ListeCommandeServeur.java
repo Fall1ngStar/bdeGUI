@@ -1,6 +1,7 @@
 package bde;
 
 import bde.models.Commande;
+import bde.models.Serveur;
 import bde.panels.CommandeContainerPanel;
 import bde.panels.CommandeWizard;
 import bde.panels.GestionCommandePanel;
@@ -21,14 +22,19 @@ public class ListeCommandeServeur extends JPanel {
     private JButton createCommande;
     private GestionCommandePanel parent;
 
-    public ListeCommandeServeur(GestionCommandePanel parent){
+    private Serveur serveur;
+    private int col;
+
+    public ListeCommandeServeur(GestionCommandePanel parent, int col, Serveur serveur){
         this.parent = parent;
+        this.col = col;
+        this.serveur = serveur;
         initComponents();
         build();
         createInterractions();
     }
     private void initComponents(){
-        serveurName = new JLabel("Serveur X");
+        serveurName = new JLabel(serveur != null ? serveur.getNom() : "Serveur");
         createCommande = new JButton("Nouvelle commande");
     }
 
@@ -55,6 +61,7 @@ public class ListeCommandeServeur extends JPanel {
                             // A la fermeture de la fenêtre de création de commande, récupère la commande crée
                             Commande c = wizard.getCommande();
                             if (c != null) {
+                                Manager.getInstance().addCommande(c,col);
                                 ListeCommandeServeur.this.addCommande(c);
                             }
                         }
@@ -90,5 +97,10 @@ public class ListeCommandeServeur extends JPanel {
         add(ccp);
         repaint();
         revalidate();
+    }
+
+    public void updateServeurName(Serveur s){
+        serveur = s;
+        serveurName.setText(s != null ? s.getNom() : "Serveur");
     }
 }

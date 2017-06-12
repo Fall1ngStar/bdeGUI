@@ -1,5 +1,7 @@
 package bde.panels;
 
+import bde.Manager;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -43,6 +45,10 @@ public class CommandePanelPrincipal extends JPanel {
         setLayout(new BorderLayout());
         add(tabbedPane, BorderLayout.CENTER);
 
-        tabbedPane.setSelectedComponent(gestionCommandePanel);
+        tabbedPane.addChangeListener(l->{
+            if(tabbedPane.getSelectedComponent() instanceof GestionCommandePanel){
+                Manager.getInstance().updateServeurs();
+            }
+        });
     }
 }

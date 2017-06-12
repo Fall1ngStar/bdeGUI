@@ -4,8 +4,10 @@ import bde.Manager;
 import bde.ManagerEvent;
 import bde.ManagerObserver;
 import bde.models.Commande;
+import bde.models.Serveur;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +17,25 @@ import java.util.Map;
 public class ServeurAppPanel extends JPanel implements ManagerObserver {
 
     private Map<Commande, CommandeContainerPanel> commandes;
+    private JPanel[] panels;
 
     public ServeurAppPanel() {
         Manager.getInstance().addObserver(this);
         commandes = new HashMap<>();
         setVisible(true);
+        panels = new JPanel[3];
+        setLayout(new GridLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        for(int i = 0; i < 3; i++){
+            c.gridx = i;
+            panels[i] = new JPanel();
+            panels[i].setLayout(new BoxLayout(panels[i], BoxLayout.Y_AXIS));
+            panels[i].add(new JLabel("Serveur " + (i+1)));
+            ((JLabel)panels[i].getComponent(0)).setAlignmentX(CENTER_ALIGNMENT);
+            panels[i].add(Box.createRigidArea(new Dimension(0,10)));
+            add(panels[i], c);
+        }
     }
 
     @Override
@@ -28,7 +44,8 @@ public class ServeurAppPanel extends JPanel implements ManagerObserver {
             case AJOUT_COMMANDE:
                 commandes.put(e.getCommande(), new CommandeContainerPanel(e.getCommande()));
                 commandes.get(e.getCommande()).hideButtons();
-                add(commandes.get(e.getCommande()));
+                commandes.get(e.getCommande()).setAlignmentX(CENTER_ALIGNMENT);
+                panels[e.getCol()].add(commandes.get(e.getCommande()));
                 repaint();
                 revalidate();
                 break;
@@ -39,11 +56,23 @@ public class ServeurAppPanel extends JPanel implements ManagerObserver {
                         break;
                     case REMISE:
                         System.out.println("Status remise");
-                        remove(commandes.get(e.getCommande()));
+                        for(JPanel p : panels){
+                            for(Component ccp : p.getComponents()){
+                                if(ccp == commandes.get(e.getCommande())){
+                                    p.remove(ccp);
+                                }
+                            }
+                        }
                         commandes.remove(e.getCommande());
                         repaint();
                         revalidate();
                         break;
+                }
+                break;
+            case SERVEUR_UPDATE:
+                Serveur[] serveurs = Manager.getInstance().getServeursSandwich();
+                for(int i = 0; i < 3; i++){
+                    ((JLabel)panels[i].getComponent(0)).setText(serveurs[i] != null ? serveurs[i].getNom() : "Serveur");
                 }
         }
     }
