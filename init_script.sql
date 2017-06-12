@@ -78,6 +78,9 @@ INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
   ('Jambon Cru',10,'Ingredient'),
   ('Rosette',10,'Ingredient'),
   ('Poulet',10,'Ingredient'),
+  ('Tomates',10,'Ingredient'),
+  ('Mais',10,'Ingredient'),
+  ('Thon',10,'Ingredient'),
   ('Saucisses',10,'Ingredient');
 INSERT INTO INGREDIENTS (LIBELLE, STOCK, TYPE_INGREDIENT) VALUES
   ('Pain',10,'Type'),
