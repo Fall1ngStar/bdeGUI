@@ -116,7 +116,7 @@ public class ConnexionBDD {
 
     public boolean setQuantite(String element, int quantite) {
         try {
-            stmt.executeUpdate("UPDATE INGREDIENTS SET STOCK = " + Integer.toString(quantite) + "WHERE LIBELLE = " + element + ";");
+            stmt.executeUpdate("UPDATE INGREDIENTS SET STOCK = " + Integer.toString(quantite) + "WHERE LIBELLE = '" + element + "';");
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,7 +126,7 @@ public class ConnexionBDD {
 
     public int getQuantite(String element) {
         try {
-            return stmt.executeQuery("SELECT quantite FROM INGREDIENT WHERE LIBELLE = " + element + ";").getInt(1);
+            return stmt.executeQuery("SELECT quantite FROM INGREDIENT WHERE LIBELLE = '" + element + "';").getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
