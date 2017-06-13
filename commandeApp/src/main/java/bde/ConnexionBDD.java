@@ -86,11 +86,11 @@ public class ConnexionBDD {
             int UID = rs.getInt(1);
             for (int i = 0; i < c.getContenu().size(); i++) {
                 int id;
-                if(c.getContenu().get(i).equals("Sandwich")) id = 47;
-                else if(c.getContenu().get(i).equals("Hot Dog")) id = 47;
-                else if(c.getContenu().get(i).equals("Wrap")) id = 49;
-                else if(c.getContenu().get(i).equals("Panini")) id = 48;
-                else if(c.getContenu().get(i).equals("Assiete garnie")) id = -1;
+                if (c.getContenu().get(i).equals("Sandwich")) id = 47;
+                else if (c.getContenu().get(i).equals("Hot Dog")) id = 47;
+                else if (c.getContenu().get(i).equals("Wrap")) id = 49;
+                else if (c.getContenu().get(i).equals("Panini")) id = 48;
+                else if (c.getContenu().get(i).equals("Assiete garnie")) id = -1;
                 else id = idIngredients.get(c.getContenu().get(i));
                 stmt.executeUpdate("INSERT INTO ING_CMD VALUES (" + UID + ", " + id + ", " + (i + 1) + ")");
             }
@@ -113,4 +113,25 @@ public class ConnexionBDD {
         }
         return null;
     }
+
+    public boolean setQuantite(String element, int quantite) {
+        try {
+            stmt.executeUpdate("UPDATE INGREDIENTS SET STOCK = " + Integer.toString(quantite) + "WHERE LIBELLE = " + element + ";");
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int getQuantite(String element) {
+        try {
+            return stmt.executeQuery("SELECT quantite FROM INGREDIENT WHERE LIBELLE = " + element + ";").getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
