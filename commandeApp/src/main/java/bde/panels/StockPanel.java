@@ -4,6 +4,8 @@ import bde.ConnexionBDD;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * StockPanel class
@@ -35,6 +37,11 @@ public class StockPanel extends JPanel {
         this.add(qteAffiche);
         this.add(plus);
 
-        plus.addActionListener();
+        plus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
     }
 }
