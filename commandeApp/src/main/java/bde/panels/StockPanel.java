@@ -1,6 +1,7 @@
 package bde.panels;
 
 import bde.ConnexionBDD;
+import bde.IngredientContainerPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,34 +15,16 @@ import java.awt.event.ActionListener;
  */
 public class StockPanel extends JPanel {
 
-    GridLayout grid;
-    JLabel ing, qteAffiche;
-    JButton moins, plus;
-    int qte;
-    ConnexionBDD instance = ConnexionBDD.getInstance();
-    String texte = String.valueOf(qte);
-
-
     public StockPanel(){
-        qte = instance.getQuantite(ing.getText());
-        grid = new GridLayout(1,4);
-        ing = new JLabel("Fromage");
-        moins = new JButton("-");
-        qteAffiche = new JLabel(texte);
-        plus = new JButton("+");
+        setLayout(new BorderLayout());
+        JPanel innerPanel = new JPanel();
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
 
-        this.setLayout(grid);
+        for(String s : ConnexionBDD.getInstance().getListeAllElems()){
+            innerPanel.add(new IngredientContainerPanel(s));
+        }
 
-        this.add(ing);
-        this.add(moins);
-        this.add(qteAffiche);
-        this.add(plus);
-
-        plus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        });
+        JScrollPane scrollPane = new JScrollPane(innerPanel);
+        add(scrollPane, BorderLayout.CENTER);
     }
 }

@@ -114,9 +114,23 @@ public class ConnexionBDD {
         return null;
     }
 
+    public List<String> getListeAllElems(){
+        List<String> elems = new ArrayList<>();
+        try{
+            ResultSet rs = stmt.executeQuery("SELECT LIBELLE FROM INGREDIENTS");
+            while(rs.next()){
+                elems.add(rs.getString(1));
+            }
+            return elems;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean setQuantite(String element, int quantite) {
         try {
-            stmt.executeUpdate("UPDATE INGREDIENTS SET STOCK = " + Integer.toString(quantite) + "WHERE LIBELLE = '" + element + "';");
+            stmt.executeUpdate("UPDATE INGREDIENTS SET STOCK = " + Integer.toString(quantite) + " WHERE LIBELLE = '" + element + "';");
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,13 +140,10 @@ public class ConnexionBDD {
 
     public int getQuantite(String element) {
         try {
-            return stmt.executeQuery("SELECT quantite FROM INGREDIENT WHERE LIBELLE = '" + element + "';").getInt(1);
+            return stmt.executeQuery("SELECT STOCK FROM INGREDIENTS WHERE LIBELLE = '" + element + "';").getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
         }
-
     }
-
-
 }
