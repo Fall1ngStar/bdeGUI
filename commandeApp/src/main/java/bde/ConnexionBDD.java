@@ -129,6 +129,7 @@ public class ConnexionBDD {
             return stmt.executeQuery("SELECT quantite FROM INGREDIENT WHERE LIBELLE = '" + element + "';").getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
         }
 
     }
